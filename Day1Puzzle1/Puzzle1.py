@@ -15,9 +15,12 @@ def sumOfDifferences(filePath:str) -> int:
     return sum([abs(x - y) for x, y in zip(LocationIdList1,LocationIdList2)])
 
 def main():
+    # puzzle 1
     currentPath = dirname(__file__)
     dataListFile = currentPath + '\\Puzzle1Datasets.csv'
-    return sumOfDifferences(dataListFile)
-            
+    x = sumOfDifferences(dataListFile)
+    # print(x)
+    return x
+       
 if __name__ == "__main__":
     main()

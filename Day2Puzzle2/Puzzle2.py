@@ -9,9 +9,7 @@ def count_safe_enough_levels(report_list:list[list[int]]) -> int:
     def is_safe_enough(report: list[int]) -> bool:
         if(is_safe(report)):
             return True
-        if any([is_safe(report[0:(j-1)]+report[j:len(report)]) for j in range(1,len(report)+1)]):
-            return True
-        return False
+        return any([is_safe(report[0:(j-1)]+report[j:len(report)]) for j in range(1,len(report)+1)])
     
     return [is_safe_enough(i) for i in report_list].count(True)
             

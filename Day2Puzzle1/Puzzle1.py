@@ -1,5 +1,4 @@
 from os.path import dirname
-from typing import List
 
 '''
 A report only counts as safe if both of the following are true:
@@ -7,9 +6,9 @@ A report only counts as safe if both of the following are true:
 The levels are either all increasing or all decreasing.
 Any two adjacent levels differ by at least one and at most three.
 '''
-def count_safe_levels(report_list:List[List[int]]) -> int:
+def count_safe_levels(report_list:list[list[int]]) -> int:
 
-    def is_safe(report: List[int]) -> bool:
+    def is_safe(report: list[int]) -> bool:
         difference_list = [report[i] - report[i-1] for i in range(1,len(report))]
         return all([abs(i) < 4 for i in difference_list]) and len(set([1 if i > 0 else 0 for i in difference_list])) == 1
     
@@ -18,7 +17,7 @@ def count_safe_levels(report_list:List[List[int]]) -> int:
 def main():
     
     current_path = dirname(__file__)
-    data_file_path = current_path + '\\Puzzle1Datasets.txt'
+    data_file_path = current_path + '\\Day2Dataset.txt'
     
     report_lists = []
     

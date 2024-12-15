@@ -1,21 +1,17 @@
 from os.path import dirname
 
-def sum_ordered_pagnumbers(page_lists:list[list[int]], rules:list[str]) -> int:
-    total = 0
-    def is_ordered(page:int, lower:list[int], upper:list[int]) -> bool:
-        a, b = True, True
-        if(len(lower) > 0): a = all([True if (("%d|%d" % (i,page)) in (rules)) else False for i in lower])
-        if(len(upper) > 0): b = all([True if (("%d|%d" % (page,i)) in (rules)) else False for i in upper])
-        return a and b
-    for pages in page_lists:
-        if all([is_ordered(pages[j], pages[0:j], pages[(j+1):len(pages)]) for j in range(0,len(pages))]):
-            total += pages[(len(pages) // 2)]
-    return total
+def sum_ordered_pagenumbers(page_lists:list[list[int]], rules:list[str]) -> int:
+    
+    def is_ordered(page:int, lower:list[int]) -> bool:
+        return all([True if (("%d|%d" % (i,page)) in (rules)) else False for i in lower])
+
+    ordered_page_lists =  [pages for pages in page_lists if all([is_ordered(pages[j], pages[0:j]) for j in range(1,len(pages)-1)])]
+    return sum(list(map(lambda x: x[len(x) // 2], [p for p in ordered_page_lists])))
 
 def main():
     current_path = dirname(__file__)
     data_file_path = current_path + '\\Day5Dataset.txt'
-    rules = []; page_lists = []; 
+    rules = []; page_lists = [];
     is_page_pairs = True;
     
     with open(data_file_path,'r') as file:
@@ -28,7 +24,7 @@ def main():
             else:
                 page_lists.append(list(map(int, row.replace('\n','').split(','))))
             
-    x = sum_ordered_pagnumbers(page_lists, rules)
+    x = sum_ordered_pagenumbers(page_lists, rules)
     # print(x)
     return x
     

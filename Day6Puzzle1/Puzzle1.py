@@ -10,6 +10,7 @@ def get_guard_path_steps(space:list[list[str]]) -> int:
     move = direction_moves_dict[current_direction]
     
     can_continue = True
+    squashed_space[current_position] = 'X'
     while can_continue:
         if((current_position + move) > 0 
             and (current_position + move) < len(squashed_space)
@@ -17,23 +18,24 @@ def get_guard_path_steps(space:list[list[str]]) -> int:
                  or not((current_position + move) % width == (width - 1) and move == -1))):
             if(squashed_space[(current_position + move)] == '#'):
                 current_direction += 1
-                move = direction_moves_dict[(current_direction) % 3]
+                move = direction_moves_dict[(current_direction) % 4]
             else:
                 squashed_space[(current_position + move)] = 'X'
                 current_position += move
         else:
             can_continue = False
-        
+    
     return squashed_space.count('X')
 
 def main():
     current_path = dirname(__file__)
     data_file_path = current_path + '\\Day6Dataset.txt'
+    
     space = []
     with open(data_file_path,'r') as file:
         for row in file:
             space.append(row.replace('\n','')[:])
-            
+    
     x = get_guard_path_steps(space)
     # print(x)
     return x
